@@ -73,7 +73,7 @@ def myflow_runner(
 
     # Create artifact with JSON content
     artifact_id = create_markdown_artifact(
-        key="monitoring_flow",
+        key="monitoring-flow",
         markdown=f"```json\n{metadata_json}\n```",
         description="Flow metadata serialized as JSON"
     )
