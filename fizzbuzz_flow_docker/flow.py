@@ -2,6 +2,8 @@ from prefect import flow, task
 from task1 import main as imported_task1
 import pandas as pd
 from datetime import datetime
+import sys
+import json
 
 @task
 def task1(arg1):
@@ -23,10 +25,26 @@ def run_flow(arg1, arg2):
         outfile.write(f"This is version {version} at {datetime.isoformat()}")
     return
 
-def run(arg1, arg2):
-    run_flow(arg1, arg2)
+
+def main():
+    if len(sys.argv) > 1:
+        try:
+            # sys.argv[1] is a JSON string
+            param_blob = sys.argv[1]
+            params = json.loads(param_blob)
+            args = params.get("args", [])
+            kwargs = params.get("kwargs", {})
+        except Exception as e:
+            print(f"❌ Failed to parse args: {e}")
+            args = []
+            kwargs = {}
+    else:
+        args = []
+        kwargs = {}
+
+    print(f"🚀 Running with args={args} kwargs={kwargs}")
+    run_flow(*args, **kwargs)
 
 
 if __name__ == "__main__":
-    run()
-
+    main()
