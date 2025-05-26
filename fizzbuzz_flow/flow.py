@@ -4,8 +4,6 @@ import pandas as pd
 
 @task
 def task1(arg1):
-    df = pd.read_csv('data_flow1/steam_games_dataset.csv', nrows=5)
-    print(df)
     return imported_task1(arg1)
 
 
