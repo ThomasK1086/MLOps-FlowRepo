@@ -18,20 +18,20 @@ from task2 import main as train_model
 from task3 import main as test_model
 
 @task(
-    name="Step 1 of MLOps Ex2"
+    name="Step 1 of Training Flow"
 )
 def step_one(*args, **kwargs):
     run_data_tests(*args, **kwargs)
 
 @task(
-    name="Step 2 of MLOps Ex2"
+    name="Step 2 of Training Flow"
 )
 def step_two(*args, **kwargs):
     model_info = train_model(*args, **kwargs)
     return model_info
 
 @task(
-    name="Step 3 of MLOps Ex2",
+    name="Step 3 of Training Flow",
     retries=0,
     timeout_seconds=60,
 )
