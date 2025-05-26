@@ -55,13 +55,13 @@ def myflow_runner(
         cutoff_year=2020,
         commit_id=None
 ):
-    output_dir = Path(output_dir)
+    output_dir_pth = Path(output_dir)
 
-    step_one(output_dir,
+    step_one(output_dir_pth,
              outfile_name,
              report_name)
 
-    model_training_results = step_two(output_dir,
+    model_training_results = step_two(output_dir_pth,
                                       outfile_name,
                                       model_name,
                                       cutoff_year,
@@ -83,7 +83,7 @@ def myflow_runner(
         model_path_full = f"models:/{model_name}/{model_version}"
 
 
-    metrics = step_three(output_dir,
+    metrics = step_three(output_dir_pth,
                          outfile_name,
                          model_name,
                          model_version=model_version,
@@ -104,7 +104,7 @@ def myflow_runner(
                     },
         "git_commit_hexsha": commit_id,
         "metrics": metrics,
-        "model_training_successfull": not model_training_results.is_failed(),
+        "model_training_successful": not model_training_results.is_failed(),
         "model_path_full": model_path_full,
         "timestamp_start": timestamp.isoformat(),
         "timestamp_end": datetime.now().isoformat(),
@@ -123,6 +123,9 @@ def myflow_runner(
     # Dump the artifact locally too
     with open("Flow_Artifacts_Local.txt", "a+", encoding="utf-8") as f:
         f.write(metadata_json)
+
+    with open("Flow_Ids.txt", "a+", encoding="utf-8") as f:
+        f.write(str(flow_id))
 
 
     return flow_id, artifact_id
