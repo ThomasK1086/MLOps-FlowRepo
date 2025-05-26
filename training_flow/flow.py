@@ -40,8 +40,8 @@ def step_three(*args, **kwargs):
     return metrics
 
 @flow(
-    name="MLOps Exercise 2",
-    flow_run_name=f"MLOps Exercise 2 at {timestamp.strftime('%Y%m%d-%H%M')}",
+    name="MLOpsEx3 Training Flow",
+    flow_run_name=f"MLOpsEx3 model training flow at {timestamp.strftime('%Y%m%d-%H%M')}",
     description="This flow includes data tests of the Steam Games Dataset, training of a Random Forest Model and validation of the model on a test set",
     version="2.0.0",
     retries=0,
