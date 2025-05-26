@@ -29,7 +29,7 @@ def run_flow(arg1, arg2, commit_id=None):
     flow_id = get_run_context().flow_run.id
 
     metadata = {
-        "flow_run_id": flow_id,
+        "flow_run_id": str(flow_id),
         "inputs": {"arg1": arg1, "arg2": arg2},
         "version": version,
         "git_commit_hexsha": commit_id,
