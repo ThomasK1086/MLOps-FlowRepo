@@ -40,7 +40,7 @@ def myflow_runner(
         cutoff_year=2020,
         commit_id=None
 ):
-    step_one(working_dir,
+    step_one(Path(working_dir),
              dataset_name,
              report_name,
              model_name,
@@ -111,10 +111,10 @@ def main():
 
 
 
-    print(f"🚀 Running with args={args} kwargs={kwargs}")
-    prefect_url = os.getenv("PREFECT_API_URL")
-    mlflow_uri = os.getenv("MLFLOW_TRACKING_URI")
-    print(f"Env variables are {prefect_url} and {mlflow_uri}")
+    #print(f"🚀 Running with args={args} kwargs={kwargs}")
+    #prefect_url = os.getenv("PREFECT_API_URL")
+    #mlflow_uri = os.getenv("MLFLOW_TRACKING_URI")
+    #print(f"Env variables are {prefect_url} and {mlflow_uri}")
     kwargs.update({"commit_id": commit_id})
     flow_id, artifact_id = myflow_runner(*args, **kwargs)
 
