@@ -4,6 +4,8 @@ import pandas as pd
 
 @task
 def task1(arg1):
+    df = pd.read_csv('data_flow1/steam_games_dataset.csv', nrows=5)
+    print(df)
     return imported_task1(arg1)
 
 
@@ -12,7 +14,7 @@ def task1(arg1):
     description='This is just for testing'
 )
 def run_flow(arg1, arg2):
-    version = "1.0.2"
+    version = "1.0.1"
     task1(arg1)
     print(f"This is version {version}")
     print(f"Received {arg1, arg2}")

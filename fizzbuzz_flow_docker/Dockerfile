@@ -11,11 +11,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
  && rm -rf /var/lib/apt/lists/*
 
 # Copy only the flow's requirements first (to leverage Docker layer caching)
-COPY flows_git/fizzbuzz_flow_docker/requirements.txt ./flows_git/fizzbuzz_flow_docker/
+COPY requirements.txt ./requirements.txt
 
 # Install Python dependencies for the flow
 RUN pip install uv
 RUN uv pip install --no-cache-dir -r ./flows_git/fizzbuzz_flow_docker/requirements.txt --system
 
 # Set default command to run the flow — this is overridden by FlowExecutor
-CMD ["python", "flows_git/my_flow/flow.py"]
+CMD ["python", "flow.py"]
