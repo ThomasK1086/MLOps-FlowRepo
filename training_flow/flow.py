@@ -130,7 +130,7 @@ def myflow_runner(
         f.write(metadata_json)
 
     with open("Flow_Ids.txt", "a+", encoding="utf-8") as f:
-        f.write(str(flow_id))
+        f.write(str(flow_id) + '\n')
 
 
     return flow_id, artifact_id
