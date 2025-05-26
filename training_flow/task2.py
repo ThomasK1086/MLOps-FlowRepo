@@ -7,6 +7,7 @@ from sklearn.metrics import accuracy_score, f1_score, balanced_accuracy_score, c
 import pandas as pd
 from pathlib import Path
 import mlflow
+import json
 
 def main(infile_dir,
          infile_name,
@@ -30,8 +31,14 @@ def main(infile_dir,
         raise ValueError('Training set is too small to produce a good model')
 
 
-    params = {"max_depth": 10, "n_estimators": 30, "min_samples_split": 5,
-              "min_samples_leaf":2, "random_state": 42}
+
+    hp_path = Path("./flows_git/training_flow/model_hyperparameters.txt")
+    try:
+        with open(hp_path, "r", encoding="utf-8") as f:
+            params = json.loads(f.read())
+    except FileNotFoundError as e:
+        raise FileNotFoundError(f"Could not find (or read) hyperparameter file at {hp_path} : {e}")
+
     model = RandomForestClassifier(**params)
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
