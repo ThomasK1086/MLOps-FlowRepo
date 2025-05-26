@@ -16,7 +16,7 @@ def task1(arg1):
 def run_flow(arg1, arg2):
     version = "1.0.1"
     task1(arg1)
-    print("This is version {version}")
+    print(f"This is version {version}")
     print(f"Received {arg1, arg2}")
     return
 
