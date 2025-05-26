@@ -26,25 +26,27 @@ def run_flow(arg1, arg2, commit_id=None):
         outfile.write(f"This is version {version} at {datetime.now().isoformat()}")
     print(f"Commit ID/Hexsha: {commit_id}")
 
-    context = get_run_context()
-    run_id = context.flow_run.id
+    flow_id = get_run_context().flow_run.id
 
-    content = f"""
-    ### Flow Execution Summary
+    metadata = {
+        "flow_run_id": flow_id,
+        "inputs": {"arg1": arg1, "arg2": arg2},
+        "version": version,
+        "git_commit_hexsha": commit_id,
+    }
 
-    **FlowRunID:** `{run_id}`  
-    **GitCommit:** `{commit_id}`  
-    **Inputs:** `x={arg1}`, `y={arg2}`  
-    **Version:** `{version}`
-    """
+    # Convert to JSON string
+    metadata_json = json.dumps(metadata, indent=2)
 
-    create_markdown_artifact(
-        key="execution-summary",
-        markdown=content,
-        description="Flow run summary with Git commit"
+    # Create artifact with JSON content
+    artifact_id = create_markdown_artifact(
+        key="flow-run-fizzbuzz",
+        markdown=f"```json\n{metadata_json}\n```",
+        description="Flow metadata serialized as JSON"
     )
 
-    return
+    return flow_id, artifact_id
+
 
 
 def main():
@@ -66,15 +68,14 @@ def main():
         kwargs = {}
         commit_id = None
 
-
-
     print(f"🚀 Running with args={args} kwargs={kwargs}")
     prefect_url = os.getenv("PREFECT_API_URL")
     mlflow_uri = os.getenv("MLFLOW_TRACKING_URI")
     print(f"Env variables are {prefect_url} and {mlflow_uri}")
     kwargs.update({"commit_id": commit_id})
-    run_flow(*args, **kwargs)
+    flow_id, artifact_id = run_flow(*args, **kwargs)
 
+    print(f"Flow ID: {flow_id}, Artifact ID: {artifact_id}")
 
 if __name__ == "__main__":
     main()
