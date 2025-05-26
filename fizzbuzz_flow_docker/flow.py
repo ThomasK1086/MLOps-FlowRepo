@@ -5,6 +5,7 @@ from datetime import datetime
 import sys
 import json
 import os
+from prefect.artifacts import create_markdown_artifact, get_run_context
 
 
 @task
@@ -24,6 +25,25 @@ def run_flow(arg1, arg2, commit_id=None):
     with open("out.txt", "w+") as outfile:
         outfile.write(f"This is version {version} at {datetime.now().isoformat()}")
     print(f"Commit ID/Hexsha: {commit_id}")
+
+    context = get_run_context()
+    run_id = context.flow_run.id
+
+    content = f"""
+    ### Flow Execution Summary
+
+    **FlowRunID:** `{run_id}`  
+    **GitCommit:** `{commit_id}`  
+    **Inputs:** `x={arg1}`, `y={arg2}`  
+    **Version:** `{version}`
+    """
+
+    create_markdown_artifact(
+        key="execution-summary",
+        markdown=content,
+        description="Flow run summary with Git commit"
+    )
+
     return
 
 
