@@ -1,6 +1,7 @@
 from prefect import flow, task
 from task1 import main as imported_task1
 import pandas as pd
+from datetime import datetime
 
 @task
 def task1(arg1):
@@ -18,6 +19,8 @@ def run_flow(arg1, arg2):
     task1(arg1)
     print(f"This is version {version}")
     print(f"Received {arg1, arg2}")
+    with open("out.txt", "w+") as outfile:
+        outfile.write(f"This is version {version} at {datetime.isoformat()}")
     return
 
 def run(arg1, arg2):
