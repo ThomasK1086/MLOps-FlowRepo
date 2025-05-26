@@ -20,10 +20,11 @@ def run_flow(arg1, arg2):
     print(f"Received {arg1, arg2}")
     return
 
-def run(arg1, arg2):
+def main(arg1, arg2, commit_id=None):
     run_flow(arg1, arg2)
+    print(f"Current commitId: {commit_id}")
 
 
 if __name__ == "__main__":
-    run()
+    main()
 
