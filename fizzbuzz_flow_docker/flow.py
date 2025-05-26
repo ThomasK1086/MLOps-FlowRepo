@@ -22,7 +22,7 @@ def run_flow(arg1, arg2):
     print(f"This is version {version}")
     print(f"Received {arg1, arg2}")
     with open("out.txt", "w+") as outfile:
-        outfile.write(f"This is version {version} at {datetime.isoformat()}")
+        outfile.write(f"This is version {version} at {datetime.now().isoformat()}")
     return
 
 
