@@ -16,13 +16,14 @@ def task1(arg1):
     name='fizzbuzz_in_dockercontainer',
     description='This is just for testing'
 )
-def run_flow(arg1, arg2):
+def run_flow(arg1, arg2, commit_id=None):
     version = "1.0.2"
     task1(arg1)
     print(f"This is version {version}")
     print(f"Received {arg1, arg2}")
     with open("out.txt", "w+") as outfile:
         outfile.write(f"This is version {version} at {datetime.now().isoformat()}")
+    print(f"Commit ID/Hexsha: {commit_id}")
     return
 
 
@@ -34,19 +35,24 @@ def main():
             params = json.loads(param_blob)
             args = params.get("args", [])
             kwargs = params.get("kwargs", {})
+            commit_id = params.get("commit_id", None)
         except Exception as e:
             print(f"❌ Failed to parse args: {e}")
             args = []
             kwargs = {}
+            commit_id = None
     else:
         args = []
         kwargs = {}
+        commit_id = None
+
 
 
     print(f"🚀 Running with args={args} kwargs={kwargs}")
     prefect_url = os.getenv("PREFECT_API_URL")
     mlflow_uri = os.getenv("MLFLOW_TRACKING_URI")
     print(f"Env variables are {prefect_url} and {mlflow_uri}")
+    kwargs.update({"commit_id": commit_id})
     run_flow(*args, **kwargs)
 
 
