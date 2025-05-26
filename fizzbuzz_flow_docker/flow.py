@@ -4,11 +4,11 @@ import pandas as pd
 from datetime import datetime
 import sys
 import json
+import os
+
 
 @task
 def task1(arg1):
-    df = pd.read_csv('data_flow1/steam_games_dataset.csv', nrows=5)
-    print(df)
     return imported_task1(arg1)
 
 
@@ -42,7 +42,11 @@ def main():
         args = []
         kwargs = {}
 
+
     print(f"🚀 Running with args={args} kwargs={kwargs}")
+    prefect_url = os.getenv("PREFECT_API_URL")
+    mlflow_uri = os.getenv("MLFLOW_TRACKING_URI")
+    print(f"Env variables are {prefect_url} and {mlflow_uri}")
     run_flow(*args, **kwargs)
 
 
