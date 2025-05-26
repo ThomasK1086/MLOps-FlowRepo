@@ -55,6 +55,8 @@ def myflow_runner(
         cutoff_year=2020,
         commit_id=None
 ):
+    output_dir = Path(output_dir)
+
     step_one(output_dir,
              outfile_name,
              report_name)
