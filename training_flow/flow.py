@@ -96,14 +96,19 @@ def myflow_runner(
 
     metadata = {
         "flow_run_id": str(flow_id),
-        "inputs": {"output_dir": output_dir,
-                   "outfile_name": outfile_name,
-                   "report_name": report_name,
-                   "model_name": model_name,
-                   "cutoff_year": cutoff_year
-                    },
+        "kwargs": {
+            "output_dir": output_dir,
+            "outfile_name": outfile_name,
+            "report_name": report_name,
+            "model_name": model_name,
+            "cutoff_year": cutoff_year
+        },
         "git_commit_hexsha": commit_id,
-        "metrics": metrics,
+        "metrics": {
+            "accuracy": metrics[0],
+            "balanced_accuracy": metrics[1],
+            "f1-score": metrics[2]
+        },
         "model_training_successful": not model_training_results.is_failed(),
         "model_path_full": model_path_full,
         "timestamp_start": timestamp.isoformat(),
@@ -115,7 +120,7 @@ def myflow_runner(
 
     # Create artifact with JSON content
     artifact_id = create_markdown_artifact(
-        key="flow-run-model-training",
+        key="training_flow",
         markdown=f"```json\n{metadata_json}\n```",
         description="Flow metadata serialized as JSON"
     )
