@@ -13,7 +13,7 @@ def task1(arg1):
 
 
 @flow(
-    name='fizzbuzz',
+    name='fizzbuzz_in_dockercontainer',
     description='This is just for testing'
 )
 def run_flow(arg1, arg2):

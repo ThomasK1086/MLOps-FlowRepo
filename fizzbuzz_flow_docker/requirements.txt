@@ -1,2 +1,2 @@
 pandas
-prefect
+prefect==3.4.1
