@@ -1,0 +1,10 @@
+evidently==0.6.7
+huggingface-hub==0.30.1
+matplotlib==3.10.3
+mlflow==2.22.0
+mlflow-skinny==2.22.0
+numpy==2.0.2
+pandas==2.2.3
+prefect==3.4.1
+scikit-learn==1.6.1
+
