@@ -22,13 +22,13 @@ def main(
             hash_fn = cloudpickle.loads(func_bytes)
         except:
             raise ValueError("Could not load hash function from pickle file. Did you pass a cloudpickle.dumps object?")
-        else:
-            def hash_fn(datetime, seed):
-                """Generates a hash from datetime and a seed, then returns an float between 0 and 1."""
-                data_str = f"{seed}_{datetime}"
-                hash_obj = hashlib.sha256(data_str.encode('utf-8'))
-                hash_int = int(hash_obj.hexdigest(), 16)
-                return hash_int % 1000 / 1000.0
+    else:
+        def hash_fn(datetime, seed):
+            """Generates a hash from datetime and a seed, then returns an float between 0 and 1."""
+            data_str = f"{seed}_{datetime}"
+            hash_obj = hashlib.sha256(data_str.encode('utf-8'))
+            hash_int = int(hash_obj.hexdigest(), 16)
+            return hash_int % 1000 / 1000.0
 
     if split_function_string is not None:
         try:

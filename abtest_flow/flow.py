@@ -90,14 +90,14 @@ def myflow_runner(
     B_modelpath = B_artifact["model_path_full"]
 
     ab_testresults = step_one(
-        Path(working_dir),
-        dataset_name,
-        A_modelpath,
-        B_modelpath,
-        hash_function_string,
-        split_function_string,
-        seed,
-        cutoff_year,
+        working_dir=Path(working_dir),
+        dataset_name=dataset_name,
+        A_modelpath=A_modelpath,
+        B_modelpath=B_modelpath,
+        hash_function_string=hash_function_string,
+        split_function_string=split_function_string,
+        seed=seed,
+        cutoff_year=cutoff_year,
     )
 
 
