@@ -4,18 +4,18 @@ timestamp = datetime.now()
 from pathlib import Path
 import warnings
 warnings.filterwarnings("ignore")
+
 from prefect.artifacts import create_markdown_artifact, get_run_context
 from prefect.client.schemas.filters import FlowRunFilter, FlowRunFilterId
 from prefect.client.orchestration import get_client
 
 import asyncio
-import os
+
 import json
 import sys
 import re
-import cloudpickle
-import base64
-import hashlib
+
+
 
 
 
@@ -136,7 +136,7 @@ def myflow_runner(
         f.write(metadata_json)
 
     with open("Flow_Ids.txt", "a+", encoding="utf-8") as f:
-        f.write(str(flow_id))
+        f.write(str(flow_id) + '\n')
 
 
     return flow_id, artifact_id

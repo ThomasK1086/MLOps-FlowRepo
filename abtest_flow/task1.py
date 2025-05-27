@@ -1,11 +1,6 @@
 import mlflow.sklearn
 import pandas as pd
-from pathlib import Path
 from sklearn.metrics import balanced_accuracy_score, accuracy_score, f1_score
-
-from evidently.test_suite import TestSuite
-from evidently.tests import TestAccuracyScore, TestF1Score, TestRecallByClass
-from evidently.test_preset import MulticlassClassificationTestPreset, DataDriftTestPreset, DataStabilityTestPreset
 
 import hashlib
 import base64
