@@ -7,8 +7,8 @@ import base64
 import cloudpickle
 
 def main(
-        infile_dir,
-        infile_name,
+        working_dir,
+        dataset_name,
         A_modelpath,
         B_modelpath,
         hash_function_string=None,
