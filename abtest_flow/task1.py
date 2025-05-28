@@ -58,8 +58,13 @@ def main(
     X_new = X[mask]
     y_new = y[mask]
 
-    X_new['hash'] = X_new.release_date.apply(lambda x: hash_fn(x, seed=seed))
-    X_new['group'] = X_new.hash.apply(lambda x: split_fn(x, seed=seed))
+    def split_fn_seeded(x):
+        return split_fn(x, seed=seed)
+    def hash_fn_seeded(x):
+        return hash_fn(x, seed=seed)
+
+    X_new['hash'] = X_new.release_date.apply(hash_fn_seeded)
+    X_new['group'] = X_new.hash.apply(split_fn_seeded)
 
     mask_A = X_new['group'] == -1
     mask_B = X_new['group'] == 1
