@@ -18,13 +18,13 @@ def main(
 ):
     if hash_function_string is not None:
         try:
-            func_bytes = base64.b64decode(hash_function_string.encode("utf-8"))
-            hash_fn = cloudpickle.loads(func_bytes)
+            hash_func_bytes = base64.b64decode(hash_function_string.encode("utf-8"))
+            hash_fn = cloudpickle.loads(hash_func_bytes)
         except:
             raise ValueError("Could not load hash function from pickle file. Did you pass a cloudpickle.dumps object?")
     else:
         def hash_fn(datetime, seed=42):
-            """Generates a hash from datetime and a seed, then returns an float between 0 and 1."""
+            """Generates a hash from datetime and a seed, then returns a float between 0 and 1."""
             data_str = f"{seed}_{datetime}"
             hash_obj = hashlib.sha256(data_str.encode('utf-8'))
             hash_int = int(hash_obj.hexdigest(), 16)
@@ -32,8 +32,8 @@ def main(
 
     if split_function_string is not None:
         try:
-            func_bytes = base64.b64decode(split_function_string.encode("utf-8"))
-            split_fn = cloudpickle.loads(func_bytes)
+            split_func_bytes = base64.b64decode(split_function_string.encode("utf-8"))
+            split_fn = cloudpickle.loads(split_func_bytes)
         except:
             raise ValueError("Could not load splitter function from pickle file. Did you pass a cloudpickle.dumps object?")
     else:
@@ -57,6 +57,12 @@ def main(
 
     X_new = X[mask]
     y_new = y[mask]
+
+
+    if isinstance(split_fn, str) or isinstance(hash_function_string, str):
+        print(f"Got {hash_function_string=} and {split_function_string=} as input to flow")
+        print(f"Thus {split_fn=}  and {hash_fn=}")
+        print(f"Types {type(split_fn)}, {type(hash_fn)}")
 
     def split_fn_seeded(x):
         return split_fn(x, seed=seed)
