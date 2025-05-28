@@ -49,7 +49,7 @@ def main(infile_dir,
     balanced_accuracy = balanced_accuracy_score(y_test, y_pred)
     metrics = {'accuracy': accuracy, 'balanced_accuracy':balanced_accuracy, "f1": f1}
 
-    mlflow.set_experiment("MLOpsEx2")
+    mlflow.set_experiment("MLOpsEx3")
 
     with mlflow.start_run(run_name="Model Training"):
         mlflow.log_metric("accuracy", accuracy)
