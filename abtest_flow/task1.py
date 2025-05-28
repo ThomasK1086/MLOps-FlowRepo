@@ -46,7 +46,7 @@ def main(
                 return 1
 
 
-    input_path = infile_dir / infile_name
+    input_path = working_dir / dataset_name
     dataset = pd.read_csv(input_path, index_col=False)
     dataset.release_date = pd.to_datetime(dataset.release_date)
 
