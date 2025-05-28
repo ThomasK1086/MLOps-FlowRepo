@@ -23,7 +23,7 @@ def main(
         except:
             raise ValueError("Could not load hash function from pickle file. Did you pass a cloudpickle.dumps object?")
     else:
-        def hash_fn(datetime, seed):
+        def hash_fn(datetime, seed=42):
             """Generates a hash from datetime and a seed, then returns an float between 0 and 1."""
             data_str = f"{seed}_{datetime}"
             hash_obj = hashlib.sha256(data_str.encode('utf-8'))
@@ -37,7 +37,7 @@ def main(
         except:
             raise ValueError("Could not load splitter function from pickle file. Did you pass a cloudpickle.dumps object?")
     else:
-        def split_fn(h, seed):
+        def split_fn(h, seed=42):
             if h < 0.33:
                 return -1
             elif h < 0.66:
@@ -58,8 +58,8 @@ def main(
     X_new = X[mask]
     y_new = y[mask]
 
-    X_new['hash'] = X_new.release_date.apply(hash_fn, seed)
-    X_new['group'] = X_new.hash.apply(split_fn, seed)
+    X_new['hash'] = X_new.release_date.apply(lambda x: hash_fn(x, seed=seed))
+    X_new['group'] = X_new.hash.apply(lambda x: split_fn(x, seed=seed))
 
     mask_A = X_new['group'] == -1
     mask_B = X_new['group'] == 1
