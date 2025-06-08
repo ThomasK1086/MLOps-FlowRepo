@@ -47,7 +47,8 @@ def main(
     dataset.release_date = pd.to_datetime(dataset.release_date)
 
     input_cols = ['release_date', 'price', 'positive_reviews', 'negative_reviews', 'metacritic_score', 'peak_ccu', 'recommendations', 'required_age', 'on_linux', 'on_mac', 'on_windows']
-    ds = dataset[input_cols.append('estimated_owners')]
+    input_cols.append('estimated_owners')
+    ds = dataset[input_cols]
 
     mask = ds.release_date.dt.year >= cutoff_year
 
