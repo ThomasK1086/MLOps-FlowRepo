@@ -72,13 +72,17 @@ def main(
     ds_A.drop(columns=['group', 'hash', 'release_date'], inplace=True)
     ds_B.drop(columns=['group', 'hash', 'release_date'], inplace=True)
 
-    outpath_A = input_path.stem + "_A.csv"
-    outpath_B = input_path.stem + "_B.csv"
 
-    ds_A.to_csv(outpath_A, index=False)
-    ds_B.to_csv(outpath_B, index=False)
+    outfile_name_A = input_path.stem + "_A.csv"
+    outfile_name_B = input_path.stem + "_B.csv"
 
-    return Path(outpath_A).name, Path(outpath_B).name
+    ds_A.to_csv(working_dir / outfile_name_A, index=False)
+    ds_B.to_csv(working_dir / outfile_name_B, index=False)
+    
+    print(f"Saving to {working_dir / outfile_name_A}, len={len(ds_A)}")
+    print(f"Saving to {working_dir / outfile_name_B}, len={len(ds_B)}")
+
+    return outfile_name_A, outfile_name_B
 
 
 if __name__ == "__main__":
