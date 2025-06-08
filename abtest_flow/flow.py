@@ -103,6 +103,7 @@ def myflow_runner(
     B_artifact = get_artifact(flow_run_id_B)
     B_modelpath = B_artifact["model_path_full"]
 
+    orig_working_dir = working_dir
     working_dir = Path(working_dir)
 
     dataset_name_A, dataset_name_B = step_one(
@@ -132,7 +133,7 @@ def myflow_runner(
     metadata = {
         "flow_run_id": str(flow_id),
         "kwargs": {
-            "working_dir": working_dir,
+            "working_dir": orig_working_dir,
             "dataset_name": dataset_name,
             "flow_run_id_A": flow_run_id_A,
             "flow_run_id_B": flow_run_id_B,

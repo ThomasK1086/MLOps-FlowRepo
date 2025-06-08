@@ -78,7 +78,7 @@ def main(
 
     ds_A.to_csv(working_dir / outfile_name_A, index=False)
     ds_B.to_csv(working_dir / outfile_name_B, index=False)
-    
+
     print(f"Saving to {working_dir / outfile_name_A}, len={len(ds_A)}")
     print(f"Saving to {working_dir / outfile_name_B}, len={len(ds_B)}")
 
