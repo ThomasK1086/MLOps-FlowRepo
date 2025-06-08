@@ -20,14 +20,28 @@ import re
 
 
 
-from task1 import main as run_ab_test
+from task1 import main as split_dataset
+from task2 import main as run_test
 
 
 @task(
-    name="Step 1 of AB Test Flow"
+    name="Step 1 of AB Test Flow",
+    description="This splits the dataset into two parts according to the hash and split functions"
 )
 def step_one(*args, **kwargs):
-    return run_ab_test(*args, **kwargs)
+    return split_dataset(*args, **kwargs)
+
+@task(
+    name="Step 2 of AB Test Flow",
+    description="This tasks tests the first model (A) on the first dataset ")
+def step_two(*args, **kwargs):
+    return run_test(*args, **kwargs)
+
+@task(
+    name="Step 3 of AB Test Flow",
+    description="This tasks tests the first model (B) on the second dataset ")
+def step_three(*args, **kwargs):
+    return run_test(*args, **kwargs)
 
 def get_artifact(flow_run_id: str) -> dict:
     async def _read_json_from_artifact():
@@ -89,15 +103,27 @@ def myflow_runner(
     B_artifact = get_artifact(flow_run_id_B)
     B_modelpath = B_artifact["model_path_full"]
 
-    ab_testresults = step_one(
-        working_dir=Path(working_dir),
+    working_dir = Path(working_dir)
+
+    dataset_name_A, dataset_name_B = step_one(
+        working_dir=working_dir,
         dataset_name=dataset_name,
-        A_modelpath=A_modelpath,
-        B_modelpath=B_modelpath,
         hash_function_string=hash_function_string,
         split_function_string=split_function_string,
         seed=seed,
         cutoff_year=cutoff_year,
+    )
+
+    results_A = step_two(
+        working_dir=working_dir,
+        dataset_name=dataset_name_A,
+        modelpath=A_modelpath
+    )
+
+    results_B = step_three(
+        working_dir=working_dir,
+        dataset_name=dataset_name_B,
+        modelpath=B_modelpath
     )
 
 
@@ -115,7 +141,10 @@ def myflow_runner(
             "seed": seed,
             "cutoff_year": cutoff_year,
         },
-        "Results": ab_testresults,
+        "Results": {
+            "results_A": results_A,
+            "results_B": results_B,
+        },
         "git_commit_hexsha": commit_id,
         "timestamp_start": timestamp.isoformat(),
         "timestamp_end": datetime.now().isoformat(),
