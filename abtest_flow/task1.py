@@ -1,4 +1,5 @@
 import pandas as pd
+from pathlib import Path
 
 import hashlib
 import base64
@@ -77,7 +78,7 @@ def main(
     ds_A.to_csv(outpath_A, index=False)
     ds_B.to_csv(outpath_B, index=False)
 
-    return outpath_A.name, outpath_B.name
+    return Path(outpath_A).name, Path(outpath_B).name
 
 
 if __name__ == "__main__":
