@@ -58,12 +58,6 @@ def main(
     X_new = X[mask]
     y_new = y[mask]
 
-
-    if isinstance(split_fn, str) or isinstance(hash_function_string, str):
-        print(f"Got {hash_function_string=} and {split_function_string=} as input to flow")
-        print(f"Thus {split_fn=}  and {hash_fn=}")
-        print(f"Types {type(split_fn)}, {type(hash_fn)}")
-
     def split_fn_seeded(x):
         return split_fn(x, seed=seed)
     def hash_fn_seeded(x):
@@ -104,14 +98,14 @@ def main(
             "accuracy": accuracy_A,
             "balanced_accuracy": balanced_accuracy_A,
             "f1": f1_A,
-            "groupsize": len(mask_A),
+            "groupsize": int(mask_A.sum()),
             "model": A_modelpath
         },
         "results_B" : {
             "accuracy": accuracy_B,
             "balanced_accuracy": balanced_accuracy_B,
             "f1": f1_B,
-            "groupsize": len(mask_B),
+            "groupsize": int(mask_B.sum()),
             "model": B_modelpath
         }
     }
@@ -119,4 +113,4 @@ def main(
 if __name__ == "__main__":
     pass
 
-
+import numpy as np
